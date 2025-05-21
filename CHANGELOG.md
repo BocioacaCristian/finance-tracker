@@ -1,8 +1,19 @@
 # Changelog
 
+## [0.5.2] - 2025-05-23
+
+### Fixed
+
+- Fixed persistent dark mode issues with form elements and dialogs
+- Added comprehensive dark mode styling to PaymentForm component
+- Created new theme utility functions for consistent styling
+- Enhanced CSS rules to properly handle dark mode for all UI elements
+- Fixed specific styling issues with inputs, selects, and buttons in dark mode
+
 ## [0.5.1] - 2025-05-22
 
 ### Fixed
+
 - Fixed UI bug causing double scrollbars in the application layout
 - Resolved dark areas appearing when adding new payments
 - Updated Layout.tsx to use proper flex column structure and height constraints
@@ -14,6 +25,7 @@
 ## [0.5.0] - 2025-05-21
 
 ### Added
+
 - File-based storage system for payments
 - Persistent payment data across application restarts
 - Data directory with JSON storage for each payment
@@ -22,16 +34,19 @@
 - Reset script to clear all payment data
 
 ### Changed
+
 - Separated client and server code for better security and performance
 - Updated payment utilities to work with file-based storage
 - Improved error handling for data operations
 - Enhanced date handling for serialization/deserialization
 
 ### Fixed
+
 - Fixed module import errors related to filesystem access
 - Resolved client-side loading of server-only modules
 
 ### Removed
+
 - Removed hard-coded sample payment data
 
 All notable changes to the Finance Tracker project will be documented in this file.
@@ -42,6 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.4.0] - 2024-10-06
 
 ### Added
+
 - Profile management to separate personal and business finances
 - Profile selector dropdown in dashboard header
 - Profile-specific financial data and statistics
@@ -50,6 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Profile selection in payment form when adding/editing payments
 
 ### Changed
+
 - Dashboard now shows focused data for selected profile
 - Financial summary displays profile-specific statistics
 - Payment management functions updated to work with profiles
@@ -58,6 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.3.0] - 2024-10-05
 
 ### Added
+
 - Month-based payment filtering and navigation
 - Month selector component for viewing transactions by specific month
 - Support for historical financial data by month and year
@@ -65,6 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Expanded sample data to demonstrate monthly filtering
 
 ### Changed
+
 - Dashboard now shows focused data for selected month
 - Financial overview now displays month-specific statistics
 - Improved empty state messaging for month-specific views
@@ -73,11 +92,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.2.0] - 2024-10-04
 
 ### Added
+
 - New Analytics page with financial insights and data visualizations
 - Visual charts for expense trends and category breakdowns
 - Loading state animations throughout the application
 
 ### Changed
+
 - Complete UI redesign for a more professional appearance
 - Enhanced navigation with active state indicators and mobile support
 - Improved card components with modern styling and better information hierarchy
@@ -88,24 +109,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved typography and spacing throughout the application
 
 ### Fixed
+
 - Inconsistent styling between components
 - Improved mobile responsiveness throughout the app
 
 ## [0.1.0] - 2024-10-03
 
 ### Added
+
 - Initial application structure using Next.js, TypeScript, and Tailwind CSS
 - Dashboard with financial overview and summary statistics
 - Payment tracking system with support for:
   - RAR (Registrul Auto Roman) payments
-  - RER (Revizia Extinctorului) payments 
+  - RER (Revizia Extinctorului) payments
   - Insurance payments
   - Taxes
   - Utilities
   - Other payment categories
 - Payment management features:
   - Add new payments
-  - Edit existing payments 
+  - Edit existing payments
   - Delete payments
   - Mark payments as paid/unpaid
   - Filter payments by category and status
@@ -114,4 +137,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Date format options
   - UI preferences
   - Data import/export options
-- Responsive layout with sidebar navigation 
+- Responsive layout with sidebar navigation

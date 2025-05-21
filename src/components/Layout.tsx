@@ -1,7 +1,11 @@
-import { ReactNode } from 'react';
+'use client';
+
+import { ReactNode, useEffect } from 'react';
 import Link from 'next/link';
 import { HomeIcon, CreditCardIcon, CogIcon, ChartBarIcon } from '@heroicons/react/24/outline';
 import { usePathname } from 'next/navigation';
+import { useTheme } from '../contexts/ThemeContext';
+import { getThemeClass, themeClasses } from '../utils/themeUtils';
 
 interface LayoutProps {
   children: ReactNode;
@@ -9,6 +13,39 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const pathname = usePathname();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  
+  // Use the utility function for theme classes
+  const bgClass = getThemeClass(isDark, themeClasses.page);
+  const navBgClass = getThemeClass(isDark, themeClasses.card);
+  const textClass = getThemeClass(isDark, themeClasses.heading);
+  const subTextClass = getThemeClass(isDark, themeClasses.body);
+  const borderClass = getThemeClass(isDark, themeClasses.border);
+  const contentBgClass = isDark ? 'bg-gray-900' : 'bg-gray-50';
+  
+  // Navigation item active and inactive styles
+  const activeNavBg = isDark ? 'bg-indigo-900/40' : 'bg-indigo-50';
+  const activeTextColor = isDark ? 'text-indigo-300' : 'text-indigo-600';
+  const inactiveTextColor = isDark ? 'text-gray-300' : 'text-gray-700';
+  const hoverBgClass = isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-50';
+  const hoverTextClass = isDark ? 'hover:text-white' : 'hover:text-gray-900';
+  
+  // Icon colors
+  const activeIconColor = isDark ? 'text-indigo-400' : 'text-indigo-500';
+  const inactiveIconColor = isDark ? 'text-gray-500' : 'text-gray-400';
+  const hoverIconColor = isDark ? 'group-hover:text-gray-300' : 'group-hover:text-gray-500';
+  
+  // Ensure theme is respected when component mounts or theme changes
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme, isDark]);
 
   // Navigation items with their paths and icons
   const navItems = [
@@ -24,9 +61,9 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 font-sans">
+    <div className={`flex flex-col h-screen ${bgClass} font-sans`}>
       {/* Top navigation bar */}
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-30">
+      <nav className={`${navBgClass} border-b ${borderClass} sticky top-0 z-30`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
@@ -34,7 +71,7 @@ export default function Layout({ children }: LayoutProps) {
                 <div className="h-9 w-9 rounded-lg bg-gradient-to-r from-indigo-600 to-blue-500 flex items-center justify-center text-white font-bold text-xl shadow-md">
                   FT
                 </div>
-                <span className="ml-3 font-semibold text-xl text-gray-800">Finance Tracker</span>
+                <span className={`ml-3 font-semibold text-xl ${textClass}`}>Finance Tracker</span>
               </Link>
             </div>
             
@@ -42,7 +79,7 @@ export default function Layout({ children }: LayoutProps) {
               <div className="ml-4 flex items-center md:ml-6">
                 <button 
                   type="button"
-                  className="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className={`relative rounded-full ${isDark ? 'bg-gray-700' : 'bg-white'} p-1 ${isDark ? 'text-gray-300' : 'text-gray-400'} ${isDark ? 'hover:text-gray-200' : 'hover:text-gray-500'} focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${isDark ? 'focus:ring-offset-gray-800' : ''}`}
                 >
                   <span className="sr-only">View notifications</span>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -54,7 +91,7 @@ export default function Layout({ children }: LayoutProps) {
                   <div className="h-8 w-8 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center text-white text-sm font-medium">
                     US
                   </div>
-                  <span className="hidden md:block ml-2 text-sm font-medium text-gray-700">User</span>
+                  <span className={`hidden md:block ml-2 text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>User</span>
                 </div>
               </div>
             </div>
@@ -64,11 +101,11 @@ export default function Layout({ children }: LayoutProps) {
       
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar navigation */}
-        <div className="w-64 bg-white shadow-sm border-r border-gray-200 hidden md:block overflow-y-auto">
+        <div className={`w-64 ${navBgClass} shadow-sm border-r ${borderClass} hidden md:block overflow-y-auto`}>
           <div className="h-full flex flex-col">
             <div className="flex-1 flex flex-col pt-5 pb-4">
               <div className="px-4 mb-6">
-                <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <h2 className={`text-xs font-semibold ${subTextClass} uppercase tracking-wider`}>
                   Menu
                 </h2>
               </div>
@@ -81,19 +118,19 @@ export default function Layout({ children }: LayoutProps) {
                       href={item.href}
                       className={`group flex items-center px-3 py-3 text-sm font-medium rounded-md transition-all ${
                         active
-                          ? 'bg-indigo-50 text-indigo-600'
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                          ? `${activeNavBg} ${activeTextColor}`
+                          : `${inactiveTextColor} ${hoverBgClass} ${hoverTextClass}`
                       }`}
                     >
                       <item.icon
                         className={`mr-3 h-5 w-5 transition-colors ${
-                          active ? 'text-indigo-500' : 'text-gray-400 group-hover:text-gray-500'
+                          active ? activeIconColor : `${inactiveIconColor} ${hoverIconColor}`
                         }`}
                         aria-hidden="true"
                       />
                       {item.name}
                       {active && (
-                        <div className="absolute left-0 w-1 bg-indigo-600 h-8 rounded-r-md" />
+                        <div className={`absolute left-0 w-1 ${isDark ? 'bg-indigo-400' : 'bg-indigo-600'} h-8 rounded-r-md`} />
                       )}
                     </Link>
                   );
@@ -101,11 +138,11 @@ export default function Layout({ children }: LayoutProps) {
               </nav>
             </div>
             
-            <div className="p-4 border-t border-gray-200">
+            <div className={`p-4 border-t ${borderClass}`}>
               <div className="flex items-center">
                 <div>
-                  <p className="text-sm font-medium text-gray-900">Finance Tracker</p>
-                  <p className="text-xs text-gray-500">v0.5.0</p>
+                  <p className={`text-sm font-medium ${textClass}`}>Finance Tracker</p>
+                  <p className={`text-xs ${subTextClass}`}>v0.5.2</p>
                 </div>
               </div>
             </div>
@@ -113,7 +150,7 @@ export default function Layout({ children }: LayoutProps) {
         </div>
         
         {/* Mobile sidebar */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-gray-200 shadow-lg">
+        <div className={`md:hidden fixed bottom-0 left-0 right-0 z-30 ${navBgClass} border-t ${borderClass} shadow-lg`}>
           <div className="flex justify-around">
             {navItems.map((item) => {
               const active = isActive(item.href);
@@ -122,11 +159,11 @@ export default function Layout({ children }: LayoutProps) {
                   key={item.name}
                   href={item.href}
                   className={`flex flex-col items-center p-3 transition-colors ${
-                    active ? 'text-indigo-600' : 'text-gray-500 hover:text-gray-900'
+                    active ? activeTextColor : `${isDark ? 'text-gray-400' : 'text-gray-500'} ${hoverTextClass}`
                   }`}
                 >
                   <item.icon
-                    className={`h-6 w-6 ${active ? 'text-indigo-500' : ''}`}
+                    className={`h-6 w-6 ${active ? activeIconColor : ''}`}
                     aria-hidden="true"
                   />
                   <span className="text-xs mt-1">{item.name}</span>
@@ -137,7 +174,7 @@ export default function Layout({ children }: LayoutProps) {
         </div>
         
         {/* Main content */}
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-6">
+        <main className={`flex-1 overflow-y-auto ${contentBgClass} p-6`}>
           <div className="max-w-7xl mx-auto pb-16 md:pb-0">
             {children}
           </div>

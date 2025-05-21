@@ -1,22 +1,42 @@
 @import "tailwindcss";
 
-:root {
+/* Light Mode (default) - Explicitly defined */
+html:not(.dark),
+:root:not(.dark),
+.light {
   --background: #ffffff;
   --foreground: #171717;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --border-color: #e5e7eb;
+  color-scheme: light;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Light mode forces white background */
+html:not(.dark) body,
+.light body {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Dark Mode - Only applied with .dark class */
+html.dark,
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --bg-primary: #1f2937;
+  --bg-secondary: #111827;
+  --border-color: #374151;
+  color-scheme: dark;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.dark body {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
 }
 
 html, body {
@@ -24,12 +44,6 @@ html, body {
   overflow: hidden;
   margin: 0;
   padding: 0;
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Ensure there are no double scrollbars */
@@ -43,4 +57,198 @@ body {
   .pb-16 {
     padding-bottom: 4rem;
   }
+}
+
+/* Dark mode specific styles - only applied with .dark class */
+.dark input,
+.dark select,
+.dark textarea {
+  color-scheme: dark;
+}
+
+.dark .shadow {
+  --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+/* Force light styles when no .dark class */
+html:not(.dark) .dark\:bg-gray-800 {
+  background-color: white !important;
+}
+
+html:not(.dark) .dark\:bg-gray-900 {
+  background-color: #f9fafb !important;
+}
+
+html:not(.dark) .dark\:text-gray-100,
+html:not(.dark) .dark\:text-gray-300,
+html:not(.dark) .dark\:text-gray-400,
+html:not(.dark) .dark\:text-white {
+  color: inherit !important;
+}
+
+/* ADDITIONAL OVERRIDES FOR PROBLEMATIC ELEMENTS */
+
+/* Force light mode on dropdowns and buttons */
+html:not(.dark) select,
+html:not(.dark) button {
+  background-color: white !important;
+  color: #374151 !important;
+  border-color: #e5e7eb !important;
+}
+
+/* Fix dropdown text color */
+html:not(.dark) select option {
+  background-color: white !important;
+  color: #374151 !important;
+}
+
+/* Reset blue buttons to proper color */
+html:not(.dark) .bg-blue-600 {
+  background-color: #2563eb !important;
+  color: white !important;
+}
+
+/* Reset red button to proper color */
+html:not(.dark) .text-red-700 {
+  color: #b91c1c !important;
+}
+
+html:not(.dark) .border-red-300 {
+  border-color: #fca5a5 !important;
+}
+
+/* Fix dark mode specific backgrounds */
+html:not(.dark) .dark\:bg-gray-700 {
+  background-color: white !important;
+}
+
+html:not(.dark) .dark\:border-gray-600,
+html:not(.dark) .dark\:border-gray-700 {
+  border-color: #e5e7eb !important;
+}
+
+/* NAVIGATION SIDEBAR SPECIFIC FIXES */
+html:not(.dark) nav a[href="/analytics"],
+html:not(.dark) nav a[href="/settings"] {
+  background-color: transparent !important;
+}
+
+html:not(.dark) nav a.bg-indigo-50 {
+  background-color: #eef2ff !important;
+}
+
+html:not(.dark) nav a:not(.bg-indigo-50) {
+  color: #374151 !important;
+}
+
+html:not(.dark) nav a:not(.bg-indigo-50):hover {
+  background-color: #f9fafb !important;
+}
+
+html:not(.dark) .text-indigo-600 {
+  color: #4f46e5 !important;
+}
+
+html:not(.dark) a.active-menu-item {
+  background-color: #eef2ff !important;
+  color: #4f46e5 !important;
+}
+
+/* Tailwind might have issues - this ensures styles are applied correctly */
+@media (prefers-color-scheme: dark) {
+  html:not(.dark) body,
+  html:not(.dark) .dark\:bg-gray-800,
+  html:not(.dark) .dark\:bg-gray-900 {
+    background-color: var(--background) !important;
+    color: var(--foreground) !important;
+  }
+  
+  /* Still force light mode elements even if system prefers dark */
+  html:not(.dark) select,
+  html:not(.dark) button:not(.bg-blue-600):not(.border-red-300) {
+    background-color: white !important;
+    color: #374151 !important;
+  }
+}
+
+/* NEW FIXES FOR DARK MODE ISSUES */
+
+/* Fix for form elements in dark mode */
+.dark .bg-white,
+.dark div[class*="bg-white"] {
+  background-color: #1f2937 !important;
+  color: #e5e7eb !important;
+}
+
+.dark .bg-gray-50,
+.dark div[class*="bg-gray-50"],
+.dark input[class*="bg-gray-50"],
+.dark select[class*="bg-gray-50"] {
+  background-color: #111827 !important;
+  color: #e5e7eb !important;
+}
+
+/* Fix for payment form elements in dark mode */
+.dark .text-gray-900 {
+  color: #e5e7eb !important;
+}
+
+.dark .text-gray-700 {
+  color: #d1d5db !important;
+}
+
+.dark .border-gray-100,
+.dark .border-gray-200,
+.dark .border-gray-300 {
+  border-color: #4b5563 !important;
+}
+
+/* Fix for modal/dialog backgrounds */
+.dark .rounded-xl.shadow-md.border.border-gray-100 {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+}
+
+/* Fix for toggle switch in dark mode */
+.dark .bg-gray-200 {
+  background-color: #4b5563 !important;
+}
+
+/* Fix for payment cards and payment form */
+.dark h2.text-xl.font-bold.text-gray-900,
+.dark label.text-sm.font-medium.text-gray-700,
+.dark p.text-sm.text-gray-700,
+.dark p.text-xs.text-gray-500,
+.dark button.text-gray-700 {
+  color: #d1d5db !important;
+}
+
+/* Fix for inputs and selects to properly show text in dark mode */
+.dark input::placeholder,
+.dark select::placeholder {
+  color: #9ca3af !important;
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: #111827 !important;
+  color: #e5e7eb !important;
+  border-color: #4b5563 !important;
+}
+
+/* Override any remaining specific colors */
+.dark [class*="text-gray-"][class*="900"],
+.dark [class*="text-gray-"][class*="800"],
+.dark [class*="text-gray-"][class*="700"] {
+  color: #e5e7eb !important;
+}
+
+/* Ensure labels and text remain visible in dark mode */
+.dark .text-gray-400,
+.dark .text-gray-500,
+.dark .text-gray-600 {
+  color: #9ca3af !important;
 }
